@@ -1,12 +1,11 @@
-
+    let rgbOn = false;
+    let blackFill = true;
+    let opacityFill = false;
+    let rgbValue;
     let gridContainer = document.getElementById('grid-container');
     gridContainer.style.gridTemplateColumns = "repeat(16, 1fr)";
     gridContainer.style.gridTemplateRows = "repeat(16, 1fr)";
     let gridSize = 256;
-    //gridContainer.classList.add('grid-container');
-   //let div = document.querySelectorAll('div');
-
-
 
 
 function generateGrid() {
@@ -25,16 +24,24 @@ function generateGrid() {
 
     var etch = function(){
         $('.grid-item').on('mouseover', function(){
+          if(rgbOn) {
+            rgbMode();
+            $(this).css("background-color", "#" + rgbValue); 
+          } else if (blackFill) {
           $(this).css("background-color", "#000");
+          } else if (opacityFill) {
+            $(this).css({"background-color" : "#000", "opacity": "0.1"});
+          }
         });
       };
     
     etch();
 
     function resetGame() {
+          rgbOn = false;
           $('.grid-item').css("background-color", "#ffffff");
           gridSize = 0;
-          gridSize = parseInt(prompt("How large would you like the grid to be?"));
+          gridSize = parseInt(prompt("How large would you like the grid to be? i.e 30x30, 60x60, 100x100"));
           gridSize *= gridSize;
           $("#grid-container").empty();
           gridContainer.style.gridTemplateColumns = null;
@@ -43,6 +50,25 @@ function generateGrid() {
           etch();
           
       }
+
+    let rgbMode = () => {
+      //toString(16) will turn the number into a hexadecimal vaue
+      rgbOn = true;
+      rgbValue = Math.floor(Math.random() * 16777215).toString(16);
+    }
+
+    let blackMode = () => {
+      rgbOn = false;
+      opacityFill = false;
+      blackFill = true;
+      etch();
+    }
+
+    let opacityMode = () => {
+      rgbOn = false;
+      blackFill = false;
+      opacityFill = true;
+    }
 
 
 

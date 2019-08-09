@@ -19,8 +19,23 @@ function generateGrid() {
         //div.addEventListener("mouseenter", mouseOver);
     }
 }
+
+  generateGrid();
+
+
+	$('#incrementOpacity').click(function(){
+    rgbOn = false;
+    blackFill = false;
+		$('.grid-item').css('opacity',0);
+		$('.grid-item').hover(function(){
+      $(this).css('background-color', '#000');
+			console.log($(this).css('opacity'));
+			$(this).css('opacity', function(){
+				return parseFloat($(this).css('opacity')) + 0.05;
+			});
+		});
+	});
     
-    generateGrid();
 
     var etch = function(){
         $('.grid-item').on('mouseover', function(){
@@ -29,13 +44,11 @@ function generateGrid() {
             $(this).css("background-color", "#" + rgbValue); 
           } else if (blackFill) {
           $(this).css("background-color", "#000");
-          } else if (opacityFill) {
-            $(this).css({"background-color" : "#000", "opacity": "0.1"});
-          }
+          } 
         });
       };
     
-    etch();
+    //etch();
 
     function resetGame() {
           rgbOn = false;
@@ -46,14 +59,13 @@ function generateGrid() {
           $("#grid-container").empty();
           gridContainer.style.gridTemplateColumns = null;
           gridContainer.style.gridTemplateRows = null;
-          generateGrid();
-          etch();
-          
+          generateGrid();          
       }
 
     let rgbMode = () => {
       //toString(16) will turn the number into a hexadecimal vaue
       rgbOn = true;
+      blackFill = false;
       rgbValue = Math.floor(Math.random() * 16777215).toString(16);
     }
 
@@ -68,7 +80,9 @@ function generateGrid() {
       rgbOn = false;
       blackFill = false;
       opacityFill = true;
+      etch();
     }
+
 
 
 
